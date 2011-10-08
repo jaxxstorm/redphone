@@ -14,7 +14,7 @@ module Redphone
         :uri => "https://events.pagerduty.com/generic/2010-04-15/create_event.json",
         :body => request_body.merge({:service_key => @service_key}).to_json
       )
-      response.body
+      JSON.parse(response.body)
     end
 
     def trigger_incident(options={})
@@ -42,7 +42,7 @@ module Redphone
         :ssl => true,
         :uri => "https://#{options[:subdomain]}.pagerduty.com/api/v1/incidents?#{params}"
       )
-      response.body
+      JSON.parse(response.body)
     end
   end
 end

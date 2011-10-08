@@ -16,25 +16,22 @@ class TestRedphonePagerduty < MiniTest::Unit::TestCase
   end
 
   def test_trigger_incident
-    trigger = @pagerduty.trigger_incident(:description => "Testing Redphone Rubygem.", :incident_key => "redphone/test")
-    response = JSON.parse(trigger)
+    response = @pagerduty.trigger_incident(:description => "Testing Redphone Rubygem.", :incident_key => "redphone/test")
     assert_equal 'success', response['status']
   end
 
   def test_resolve_incident
-    resolve = @pagerduty.resolve_incident(:incident_key => "redphone/test")
-    response = JSON.parse(resolve)
+    response = @pagerduty.resolve_incident(:incident_key => "redphone/test")
     assert_equal 'success', response['status']
   end
 
   def test_incidents
-    incidents = Redphone::Pagerduty.incidents(
+    response = Redphone::Pagerduty.incidents(
       :subdomain => SUBDOMAIN,
       :user => USER,
       :password => PASSWORD,
       :incident_key => "redphone/test"
     )
-    response = JSON.parse(incidents)
     assert response['total'] > 0
   end
 end
