@@ -1,4 +1,4 @@
-* Redphone, the ruby monitoring service library
+* Redphone, the monitoring service ruby library
   - Pagerduty support (integration, incidents)
 * Getting started
   : gem install redphone
