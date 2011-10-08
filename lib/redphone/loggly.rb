@@ -10,6 +10,7 @@ module Redphone
       @user = options[:user]
       @password = options[:password]
       @input_key = options[:input_key]
+      @input_type = options[:input_type]
     end
 
     def search(options={})
@@ -40,6 +41,7 @@ module Redphone
 
     def send_event(options={})
       options[:input_key] = options[:input_key] || @input_key
+      options[:input_type] = options[:input_type] || @input_type
       self.class.send_event(options)
     end
   end
