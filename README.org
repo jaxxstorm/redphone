@@ -22,3 +22,5 @@
   : :until => "2011-10-01"
   Or if you only care about unresolved incidents
   : :status => "triggered,acknowledged"
+* Contributors
+  - [[http://portertech.ca][Sean Porter]]
