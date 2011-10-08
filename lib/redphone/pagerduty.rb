@@ -28,5 +28,21 @@ module Redphone
       request_body = options.merge!({:event_type => "resolve"})
       integration_api(request_body)
     end
+
+    def self.incidents(options={})
+      raise "You must supply a subdomain" if options[:subdomain].nil?
+      raise "You must supply a user" if options[:user].nil?
+      raise "You must supply a password" if options[:password].nil?
+      params_hash = options.reject { |key, value| [:subdomain, :user, :password].include?(key) }
+      params = params_hash.map { |key, value| "#{key}=#{CGI.escape(value)}"}.join("&")
+      response = http_request(
+        :method => "get",
+        :user => options[:user],
+        :password => options[:password],
+        :ssl => true,
+        :uri => "https://#{options[:subdomain]}.pagerduty.com/api/v1/incidents?#{params}"
+      )
+      response.body
+    end
   end
 end
