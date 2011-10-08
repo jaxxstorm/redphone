@@ -20,7 +20,7 @@ class TestRedphoneLoggly < MiniTest::Unit::TestCase
   end
 
   def test_send_event
-    response = Redphone::Loggly.send_event(
+    response = @loggly.send_event(
       :input_key => INPUT_KEY,
       :input_type => "json",
       :event => {
@@ -32,9 +32,7 @@ class TestRedphoneLoggly < MiniTest::Unit::TestCase
   end
 
   def test_search
-    response = @loggly.search(
-      :q => "json.service:redphone"
-    )
+    response = @loggly.search(:q => "json.service:redphone")
     assert response['numFound'] > 0
   end
 end

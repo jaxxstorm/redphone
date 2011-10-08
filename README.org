@@ -1,5 +1,6 @@
 * Redphone, the monitoring service ruby library
   - Pagerduty support (integration, incidents)
+  - Loggly support (events)
   [[https://github.com/portertech/redphone/raw/master/redphone.jpg]]
 * Getting started
   : gem install redphone
@@ -8,7 +9,10 @@
   : require "redphone/pagerduty"
   : pagerduty = Redphone::Pagerduty.new(:service_key => SERVICE_KEY)
   Trigger an incident
-  : pagerduty.trigger_incident(:description => "Testing Redphone Rubygem.", :incident_key => "redphone/test")
+  : pagerduty.trigger_incident(
+  :   :description => "Testing Redphone Rubygem",
+  :   :incident_key => "redphone/test"
+  : )
   Resolve an incident
   : pagerduty.resolve_incident(:incident_key => "redphone/test")
   List/query current and past incidents
@@ -23,5 +27,24 @@
   : :until => "2011-10-01"
   Or if you only care about unresolved incidents
   : :status => "triggered,acknowledged"
+** Loggly
+  : require "redphone/loggly"
+  : loggly = Redphone::Loggly.new(
+  :  :subdomain => SUBDOMAIN,
+  :  :user => USER,
+  :  :password => PASSWORD
+  : )
+  Create an event
+  : loggly.send_event(
+  :   :input_key => INPUT_KEY,
+  :   :input_type => "json",
+  :   :event => {
+  :     :service => "redphone",
+  :     :message => "test"
+  :   }
+  : )
+  : # or Redphone::Loggly.send_event()
+  Search for previous events
+  : events = loggly.search(:q => "json.service:redphone")
 * Contributors
   - [[http://portertech.ca][Sean Porter]]

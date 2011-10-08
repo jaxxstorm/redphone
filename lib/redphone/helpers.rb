@@ -8,10 +8,10 @@ def http_request(options={})
   raise "You must supply a URI" if options[:uri].nil?
   method = options[:method] || "get"
   uri = URI.parse(options[:uri])
-  user = options[:user] || nil
-  password = options[:password] || nil
+  user = options[:user]
+  password = options[:password]
   headers = options[:headers] || Hash.new
-  body = options[:body] || nil
+  body = options[:body]
   http = Net::HTTP.new(uri.host, uri.port)
   if options[:ssl] == true
     http.use_ssl = true

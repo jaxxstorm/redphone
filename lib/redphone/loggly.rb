@@ -9,6 +9,7 @@ module Redphone
       @subdomain =  options[:subdomain]
       @user = options[:user]
       @password = options[:password]
+      @input_key = options[:input_key]
     end
 
     def search(options={})
@@ -35,6 +36,11 @@ module Redphone
         :body => options[:event].to_json
       )
       JSON.parse(response.body)
+    end
+
+    def send_event(options={})
+      options[:input_key] = options[:input_key] || @input_key
+      self.class.send_event(options)
     end
   end
 end
