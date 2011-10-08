@@ -34,9 +34,8 @@ module Redphone
       raise "You must supply a user" if options[:user].nil?
       raise "You must supply a password" if options[:password].nil?
       params_hash = options.reject { |key, value| [:subdomain, :user, :password].include?(key) }
-      params = params_hash.map { |key, value| "#{key}=#{CGI.escape(value)}"}.join("&")
+      params = params_hash.map { |key, value| "#{key}=#{CGI.escape(value)}" }.join("&")
       response = http_request(
-        :method => "get",
         :user => options[:user],
         :password => options[:password],
         :ssl => true,
