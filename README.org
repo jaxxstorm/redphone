@@ -5,6 +5,7 @@
   : gem install redphone
 * Examples
 ** Pagerduty
+  : require "redphone/pagerduty"
   : pagerduty = Redphone::Pagerduty.new(:service_key => SERVICE_KEY)
   Trigger an incident
   : pagerduty.trigger_incident(:description => "Testing Redphone Rubygem.", :incident_key => "redphone/test")
