@@ -1,0 +1,18 @@
+* Redphone, the ruby monitoring service library
+  - Pagerduty support (integration, incidents)
+* Getting started
+  : gem install redphone
+* Examples
+** Pagerduty
+  : pagerduty = Redphone::Pagerduty.new(:service_key => SERVICE_KEY)
+  Trigger an incident
+  : pagerduty.trigger_incident(:description => "Testing Redphone Rubygem.", :incident_key => "redphone/test")
+  Resolve an incident
+  : pagerduty.resolve_incident(:incident_key => "redphone/test")
+  List/query current and past incidents
+  : incidents = Redphone::Pagerduty.incidents(
+  :   :subdomain => SUBDOMAIN,
+  :   :user => USER,
+  :   :password => PASSWORD,
+  :   :incident_key => "redphone/test"
+  : )
