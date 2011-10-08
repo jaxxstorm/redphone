@@ -30,5 +30,11 @@ class TestRedphoneLoggly < MiniTest::Unit::TestCase
     )
     assert_equal 'ok', response['response']
   end
-end
 
+  def test_search
+    response = @loggly.search(
+      :q => "json.service:redphone"
+    )
+    assert response['numFound'] > 0
+  end
+end
