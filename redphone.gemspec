@@ -7,9 +7,9 @@ Gem::Specification.new do |s|
   s.version     = Redphone::VERSION
   s.authors     = ["Sean Porter"]
   s.email       = ["portertech@gmail.com"]
-  s.homepage    = ""
-  s.summary     = %q{TODO: Write a gem summary}
-  s.description = %q{TODO: Write a gem description}
+  s.homepage    = "https://github.com/portertech/redphone"
+  s.summary     = %q{A rubygem for talking to monitoring service APIs}
+  s.description = %q{A rubygem for talking to monitoring service APIs}
 
   s.rubyforge_project = "redphone"
 
@@ -18,7 +18,7 @@ Gem::Specification.new do |s|
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
 
-  # specify any dependencies here; for example:
-  # s.add_development_dependency "rspec"
-  # s.add_runtime_dependency "rest-client"
+  s.add_dependency "json"
+  s.add_development_dependency "rake"
+  s.add_development_dependency "minitest"
 end

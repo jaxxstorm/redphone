@@ -2,3 +2,4 @@
 .bundle
 Gemfile.lock
 pkg/*
+pagerduty_service_key.txt
