@@ -12,26 +12,33 @@ class TestRedphonePagerduty < MiniTest::Unit::TestCase
   i_suck_and_my_tests_are_order_dependent!
 
   def setup
-    @pagerduty = Redphone::Pagerduty.new(:service_key => PAGERDUTY_SERVICE_KEY)
+    @pagerduty = Redphone::Pagerduty.new(
+      #:service_key => PAGERDUTY_SERVICE_KEY,
+      :subdomain => PAGERDUTY_SUBDOMAIN,
+      :user => PAGERDUTY_USER,
+      :password => PAGERDUTY_PASSWORD
+    )
   end
 
   def test_trigger_incident
-    response = @pagerduty.trigger_incident(:description => "Testing Redphone Rubygem.", :incident_key => "redphone/test")
+    response = @pagerduty.trigger_incident(
+      :service_key => PAGERDUTY_SERVICE_KEY,
+      :description => "Testing Redphone Rubygem",
+      :incident_key => "redphone/test"
+    )
     assert_equal 'success', response['status']
   end
 
   def test_resolve_incident
-    response = @pagerduty.resolve_incident(:incident_key => "redphone/test")
+    response = @pagerduty.resolve_incident(
+      :service_key => PAGERDUTY_SERVICE_KEY,
+      :incident_key => "redphone/test"
+    )
     assert_equal 'success', response['status']
   end
 
   def test_incidents
-    response = Redphone::Pagerduty.incidents(
-      :subdomain => PAGERDUTY_SUBDOMAIN,
-      :user => PAGERDUTY_USER,
-      :password => PAGERDUTY_PASSWORD,
-      :incident_key => "redphone/test"
-    )
+    response = @pagerduty.incidents(:incident_key => "redphone/test")
     assert response['total'] > 0
   end
 end

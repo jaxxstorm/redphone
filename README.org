@@ -7,21 +7,23 @@
 * Examples
 ** Pagerduty
   : require "redphone/pagerduty"
-  : pagerduty = Redphone::Pagerduty.new(:service_key => SERVICE_KEY)
+  : pagerduty = Redphone::Pagerduty.new(
+  :   :service_key => SERVICE_KEY,
+  :   :subdomain => SUBDOMAIN,
+  :   :user => USER,
+  :   :password => PASSWORD
+  : )
   Trigger an incident
   : pagerduty.trigger_incident(
   :   :description => "Testing Redphone Rubygem",
   :   :incident_key => "redphone/test"
   : )
+  : # OR Redphone::Pagerduty.trigger_incident()
   Resolve an incident
   : pagerduty.resolve_incident(:incident_key => "redphone/test")
+  : # OR Redphone::Pagerduty.resolve_incident()
   List/query current and past incidents
-  : incidents = Redphone::Pagerduty.incidents(
-  :   :subdomain => SUBDOMAIN,
-  :   :user => USER,
-  :   :password => PASSWORD,
-  :   :incident_key => "redphone/test"
-  : )
+  : incidents = pagerduty.incidents(:incident_key => "redphone/test")
   You can add the following options for a date range
   : :since => "2011-08-01",
   : :until => "2011-10-01"
@@ -43,8 +45,8 @@
   :     :message => "test"
   :   }
   : )
-  : # or Redphone::Loggly.send_event()
-  Search for previous events
+  : # OR Redphone::Loggly.send_event()
+  Search for previous event occurrences
   : events = loggly.search(:q => "json.service:redphone")
 * Contributors
   - [[http://portertech.ca][Sean Porter]]

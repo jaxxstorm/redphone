@@ -4,7 +4,7 @@ gem 'minitest'
 require 'minitest/autorun'
 require 'redphone/loggly'
 
-INPUT_KEY = File.open("loggly_input_key.txt", "rb").read.gsub("\n", "")
+LOGGLY_INPUT_KEY = File.open("loggly_input_key.txt", "rb").read.gsub("\n", "")
 credentials = File.open("loggly_credentials.txt", "rb").read.split("\n")
 LOGGLY_SUBDOMAIN, LOGGLY_USER, LOGGLY_PASSWORD = credentials.each { |row| row }
 
@@ -13,6 +13,7 @@ class TestRedphoneLoggly < MiniTest::Unit::TestCase
 
   def setup
     @loggly = Redphone::Loggly.new(
+      #:input_key => LOGGLY_INPUT_KEY,
       :subdomain => LOGGLY_SUBDOMAIN,
       :user => LOGGLY_USER,
       :password => LOGGLY_PASSWORD
@@ -21,7 +22,7 @@ class TestRedphoneLoggly < MiniTest::Unit::TestCase
 
   def test_send_event
     response = @loggly.send_event(
-      :input_key => INPUT_KEY,
+      :input_key => LOGGLY_INPUT_KEY,
       :input_type => "json",
       :event => {
         :service => "redphone",
