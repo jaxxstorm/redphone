@@ -7,7 +7,7 @@ module Redphone
       @service_key = options[:service_key]
     end
 
-    def incident_api(request_body)
+    def integration_api(request_body)
       response = http_request(
         :method => "post",
         :ssl => true,
@@ -20,13 +20,13 @@ module Redphone
     def trigger_incident(options={})
       raise "You must supply a description" if options[:description].nil?
       request_body = options.merge!({:event_type => "trigger"})
-      incident_api(request_body)
+      integration_api(request_body)
     end
 
     def resolve_incident(options={})
       raise "You must supply a incident key" if options[:incident_key].nil?
       request_body = options.merge!({:event_type => "resolve"})
-      incident_api(request_body)
+      integration_api(request_body)
     end
   end
 end
