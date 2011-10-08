@@ -1,5 +1,5 @@
 require "redphone/version"
 
 module Redphone
-  # Your code goes here...
+  # Hello World!
 end
