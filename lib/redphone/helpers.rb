@@ -8,8 +8,9 @@ def http_request(options={})
   raise "You must supply a URI" if options[:uri].nil?
   method = options[:method] || "get"
   uri = URI.parse(options[:uri])
-  user = options[:user]
-  password = options[:password]
+  user = options[:user] || nil
+  password = options[:password] || nil
+  headers = options[:headers] || Hash.new
   body = options[:body] || nil
   http = Net::HTTP.new(uri.host, uri.port)
   if options[:ssl] == true
@@ -27,6 +28,9 @@ def http_request(options={})
     Net::HTTP::Delete.new(uri.request_uri)
   else
     raise "Unknown HTTP method: #{method}"
+  end
+  headers.each do |header, value|
+    request.add_field(header, value)
   end
   if user && password
     request.basic_auth user, password

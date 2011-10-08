@@ -22,5 +22,19 @@ module Redphone
       )
       JSON.parse(response.body)
     end
+
+    def self.send_event(options={})
+      raise "You must supply a input key" if options[:input_key].nil?
+      raise "You must supply an event hash" if options[:event].nil? || !options[:event].is_a?(Hash)
+      content_type = options[:input_type] == "json" ? "application/json" : "text/plain"
+      response = http_request(
+        :method => "post",
+        :ssl => true,
+        :uri => "https://logs.loggly.com/inputs/#{options[:input_key]}",
+        :headers => {"content-type" => content_type},
+        :body => options[:event].to_json
+      )
+      JSON.parse(response.body)
+    end
   end
 end

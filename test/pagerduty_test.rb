@@ -4,15 +4,15 @@ gem 'minitest'
 require 'minitest/autorun'
 require 'redphone/pagerduty'
 
-SERVICE_KEY = File.open("pagerduty_service_key.txt", "rb").read.gsub("\n", "")
+PAGERDUTY_SERVICE_KEY = File.open("pagerduty_service_key.txt", "rb").read.gsub("\n", "")
 credentials = File.open("pagerduty_credentials.txt", "rb").read.split("\n")
-SUBDOMAIN, USER, PASSWORD = credentials.each { |row| row }
+PAGERDUTY_SUBDOMAIN, PAGERDUTY_USER, PAGERDUTY_PASSWORD = credentials.each { |row| row }
 
 class TestRedphonePagerduty < MiniTest::Unit::TestCase
   i_suck_and_my_tests_are_order_dependent!
 
   def setup
-    @pagerduty = Redphone::Pagerduty.new(:service_key => SERVICE_KEY)
+    @pagerduty = Redphone::Pagerduty.new(:service_key => PAGERDUTY_SERVICE_KEY)
   end
 
   def test_trigger_incident
@@ -27,9 +27,9 @@ class TestRedphonePagerduty < MiniTest::Unit::TestCase
 
   def test_incidents
     response = Redphone::Pagerduty.incidents(
-      :subdomain => SUBDOMAIN,
-      :user => USER,
-      :password => PASSWORD,
+      :subdomain => PAGERDUTY_SUBDOMAIN,
+      :user => PAGERDUTY_USER,
+      :password => PAGERDUTY_PASSWORD,
       :incident_key => "redphone/test"
     )
     assert response['total'] > 0
