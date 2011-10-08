@@ -36,4 +36,9 @@ class TestRedphoneLoggly < MiniTest::Unit::TestCase
     response = @loggly.search(:q => "json.service:redphone")
     assert response['numFound'] > 0
   end
+
+  def test_facets
+    response = @loggly.facets(:q => "json.service:redphone")
+    assert response['numFound'] > 0
+  end
 end

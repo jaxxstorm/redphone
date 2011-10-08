@@ -25,6 +25,21 @@ module Redphone
       JSON.parse(response.body)
     end
 
+    def facets(options={})
+      raise "You must supply a query string" if options[:q].nil?
+      facet_type = options[:facet_type] || "date"
+      raise "Facet type must be date, ip, or input" if !%w[date ip input].include?(facet_type)
+      params_hash = options.reject { |key, value| key == :facet_type }
+      params = params_hash.map { |key, value| "#{key}=#{CGI.escape(value)}" }.join("&")
+      response = http_request(
+        :user => @user,
+        :password => @password,
+        :ssl => true,
+        :uri => "https://#{@subdomain}.loggly.com/api/facets/#{facet_type}/?#{params}"
+      )
+      JSON.parse(response.body)
+    end
+
     def self.send_event(options={})
       raise "You must supply a input key" if options[:input_key].nil?
       raise "You must supply an event hash" if options[:event].nil? || !options[:event].is_a?(Hash)
