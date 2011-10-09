@@ -21,7 +21,7 @@ def http_request(options={})
   request_uri = uri.request_uri
   unless parameters.empty?
     request_uri += "?"
-    request_uri += parameters.map { |key, value| "#{key}=#{CGI.escape(value)}" }.join("&")
+    request_uri += parameters.map { |key, value| "#{key}=#{CGI.escape(value.to_s)}" }.join("&")
   end
   request = case method
   when "get"

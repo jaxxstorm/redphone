@@ -6,6 +6,7 @@ require 'redphone/pingdom'
 
 credentials = File.open("pingdom_credentials.txt", "rb").read.split("\n")
 PINGDOM_USER, PINGDOM_PASSWORD = credentials.each { |row| row }
+$test_check_id = nil
 
 class TestRedphonePingdom < MiniTest::Unit::TestCase
   i_suck_and_my_tests_are_order_dependent!
@@ -17,17 +18,17 @@ class TestRedphonePingdom < MiniTest::Unit::TestCase
     )
   end
 
-  def test_create_check
+  def test_a_create_check
     response = @pingdom.create_check(
       :name => "redphone",
       :host => "www.amazon.ca",
       :type => "http"
     )
-    @test_check_id = response['check']['id']
+    $test_check_id = response['check']['id']
     assert_equal "redphone", response['check']['name']
   end
 
-  def test_checks
+  def test_b_checks
     response = @pingdom.checks
     exists = false
     assert_block(message="assert_block failed.") do
@@ -38,24 +39,21 @@ class TestRedphonePingdom < MiniTest::Unit::TestCase
     end
   end
 
-  def test_actions
-    response = @pingdom.actions(
-      :from => Date.new(2011,10,01).to_time.to_i,
-      :limit => 1
-    )
-    assert !response.has_key?("error")
+  def test_c_actions
+    response = @pingdom.actions(:limit => 1)
+    assert response.has_key?("actions")
   end
 
-  def test_results
+  def test_d_results
     response = @pingdom.results(
-      :id => @test_check_id,
+      :id => $test_check_id,
       :limit => 1
     )
-    assert response['results'].count == 1
+    assert response.has_key?("results")
   end
 
-  def test_delete_check
-    response = @pingdom.delete_check(:id => @test_check_id)
+  def test_e_delete_check
+    response = @pingdom.delete_check(:id => $test_check_id)
     assert_equal "Deletion of check was successful!", response['message']
   end
 end

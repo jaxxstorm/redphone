@@ -20,7 +20,7 @@ class TestRedphonePagerduty < MiniTest::Unit::TestCase
     )
   end
 
-  def test_trigger_incident
+  def test_a_trigger_incident
     response = @pagerduty.trigger_incident(
       :service_key => PAGERDUTY_SERVICE_KEY,
       :description => "Testing Redphone Rubygem",
@@ -29,7 +29,7 @@ class TestRedphonePagerduty < MiniTest::Unit::TestCase
     assert_equal 'success', response['status']
   end
 
-  def test_resolve_incident
+  def test_b_resolve_incident
     response = @pagerduty.resolve_incident(
       :service_key => PAGERDUTY_SERVICE_KEY,
       :incident_key => "redphone/test"
@@ -37,7 +37,7 @@ class TestRedphonePagerduty < MiniTest::Unit::TestCase
     assert_equal 'success', response['status']
   end
 
-  def test_incidents
+  def test_c_incidents
     response = @pagerduty.incidents(:incident_key => "redphone/test")
     assert response['total'] > 0
   end
