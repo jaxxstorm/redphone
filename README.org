@@ -2,7 +2,9 @@
   - Pagerduty support (integration, incidents)
   - Loggly support (event, search, facets)
   [[https://github.com/portertech/redphone/raw/master/redphone.jpg]]
+
   All API request are done over SSL
+
   Response bodies are returned as Ruby hashes
 * Getting started
   : gem install redphone
