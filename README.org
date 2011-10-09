@@ -1,5 +1,6 @@
 * Redphone, the monitoring service ruby library
   - Pagerduty support (integration, incidents)
+  - Pingdom support (checks, results, actions)
   - Loggly support (event, search, facets)
   [[https://github.com/portertech/redphone/raw/master/redphone.jpg]]
   - All API request are done over SSL
@@ -59,5 +60,20 @@
   You can add the following options for a date range
   : :from => "2011-08-01T12:00:00Z",
   : :until => "2011-10-01T12:00:00Z"
+** Pingdom
+  : require "redphone/pingdom"
+  : pingdom = Redphone::Pingdom.new(
+  :   :user => USER,
+  :   :password => PASSWORD
+  : )
+  Create a check
+  : response = pingdom.create_check(
+  :   :name => "redphone",
+  :   :host => "www.amazon.ca",
+  :   :type => "http"
+  : )
+  : check_id = response['check']['id']
+  Delete a check
+  : pingdom.delete_check(:id => check_id)
 * Contributors
   - [[http://portertech.ca][Sean Porter]]
