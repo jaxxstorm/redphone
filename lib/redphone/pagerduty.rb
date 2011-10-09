@@ -3,9 +3,9 @@ require File.join(File.dirname(__FILE__), 'helpers')
 module Redphone
   class Pagerduty
     def initialize(options={})
-      raise "You must supply a subdomain" if options[:subdomain].nil?
-      raise "You must supply a user" if options[:user].nil?
-      raise "You must supply a password" if options[:password].nil?
+      [:subdomain, :user, :password].each do |option|
+        raise "You must supply a #{option}" if options[option].nil?
+      end
       @subdomain =  options[:subdomain]
       @user = options[:user]
       @password = options[:password]
@@ -23,8 +23,9 @@ module Redphone
     end
 
     def self.trigger_incident(options={})
-      raise "You must supply a service key" if options[:service_key].nil?
-      raise "You must supply a description" if options[:description].nil?
+      [:service_key, :description].each do |option|
+        raise "You must supply a #{option.gsub('_', ' ')}" if options[option].nil?
+      end
       request_body = options.merge!({:event_type => "trigger"})
       integration_api(request_body)
     end
@@ -35,8 +36,9 @@ module Redphone
     end
 
     def self.resolve_incident(options={})
-      raise "You must supply a service key" if options[:service_key].nil?
-      raise "You must supply a incident key" if options[:incident_key].nil?
+      [:service_key, :incident_key].each do |option|
+        raise "You must supply a #{option.gsub('_', ' ')}" if options[option].nil?
+      end
       request_body = options.merge!({:event_type => "resolve"})
       integration_api(request_body)
     end

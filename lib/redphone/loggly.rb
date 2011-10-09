@@ -3,9 +3,9 @@ require File.join(File.dirname(__FILE__), 'helpers')
 module Redphone
   class Loggly
     def initialize(options={})
-      raise "You must supply a subdomain" if options[:subdomain].nil?
-      raise "You must supply a user" if options[:user].nil?
-      raise "You must supply a password" if options[:password].nil?
+      [:subdomain, :user, :password].each do |option|
+        raise "You must supply a #{option}" if options[option].nil?
+      end
       @subdomain =  options[:subdomain]
       @user = options[:user]
       @password = options[:password]
