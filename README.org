@@ -26,7 +26,7 @@
   : pagerduty.resolve_incident(:incident_key => "redphone/test")
   : # OR Redphone::Pagerduty.resolve_incident()
   List/query current and past incidents
-  : incidents = pagerduty.incidents(:incident_key => "redphone/test")
+  : pagerduty.incidents(:incident_key => "redphone/test")
   You can add the following options for a date range
   : :since => "2011-08-01",
   : :until => "2011-10-01"
@@ -65,9 +65,9 @@
   : )
   : # OR Redphone::Loggly.send_event()
   Search for previous event occurrences
-  : events = loggly.search(:q => "json.service:redphone")
+  : loggly.search(:q => "json.service:redphone")
   Faceted search results on date
-  : facet = loggly.facets(:q => "json.service:redphone")
+  : loggly.facets(:q => "json.service:redphone")
   Add an option for faceted search results on input name
   : :facet_type => "input"
   Or on IP address
