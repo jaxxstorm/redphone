@@ -48,10 +48,14 @@
   : # OR Redphone::Loggly.send_event()
   Search for previous event occurrences
   : events = loggly.search(:q => "json.service:redphone")
-  Facet search for a time frame
-  : facet = loggly.facets(
-  :   :q => "json.service:redphone",
-  :   :from => "2011-10-01T12:00:00Z"
-  : )
+  Faceted search results on date
+  : facet = loggly.facets(:q => "json.service:redphone")
+  Add an option for faceted search results on input name
+  : :facet_type => "input"
+  Or on IP address
+  : :facet_type => "ip"
+  You can add the following options for a date range
+  : :from => "2011-08-01T12:00:00Z",
+  : :until => "2011-10-01T12:00:00Z"
 * Contributors
   - [[http://portertech.ca][Sean Porter]]
