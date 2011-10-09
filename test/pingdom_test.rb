@@ -4,7 +4,7 @@ gem 'minitest'
 require 'minitest/autorun'
 require 'redphone/pingdom'
 
-credentials = File.open("pagerduty_credentials.txt", "rb").read.split("\n")
+credentials = File.open("pingdom_credentials.txt", "rb").read.split("\n")
 PINGDOM_USER, PINGDOM_PASSWORD = credentials.each { |row| row }
 
 class TestRedphonePingdom < MiniTest::Unit::TestCase
