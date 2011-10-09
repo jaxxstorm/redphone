@@ -38,7 +38,10 @@ class TestRedphoneLoggly < MiniTest::Unit::TestCase
   end
 
   def test_facets
-    response = @loggly.facets(:q => "json.service:redphone")
+    response = @loggly.facets(
+      :q => "json.service:redphone",
+      :from => "2011-10-01T12:00:00Z"
+    )
     assert response['numFound'] > 0
   end
 end

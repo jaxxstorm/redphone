@@ -1,6 +1,6 @@
 * Redphone, the monitoring service ruby library
   - Pagerduty support (integration, incidents)
-  - Loggly support (events)
+  - Loggly support (event, search, facets)
   [[https://github.com/portertech/redphone/raw/master/redphone.jpg]]
 * Getting started
   : gem install redphone
@@ -48,5 +48,10 @@
   : # OR Redphone::Loggly.send_event()
   Search for previous event occurrences
   : events = loggly.search(:q => "json.service:redphone")
+  Facet search for a time frame
+  : facet = loggly.facets(
+  :   :q => "json.service:redphone",
+  :   :from => "2011-10-01T12:00:00Z"
+  : )
 * Contributors
   - [[http://portertech.ca][Sean Porter]]
