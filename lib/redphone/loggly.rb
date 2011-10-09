@@ -15,12 +15,12 @@ module Redphone
 
     def search(options={})
       raise "You must supply a query string" if options[:q].nil?
-      params = options.map { |key, value| "#{key}=#{CGI.escape(value)}" }.join("&")
       response = http_request(
         :user => @user,
         :password => @password,
         :ssl => true,
-        :uri => "https://#{@subdomain}.loggly.com/api/search?#{params}"
+        :uri => "https://#{@subdomain}.loggly.com/api/search",
+        :parameters => options
       )
       JSON.parse(response.body)
     end
@@ -29,13 +29,12 @@ module Redphone
       raise "You must supply a query string" if options[:q].nil?
       facet_type = options[:facet_type] || "date"
       raise "Facet type must be date, ip, or input" if !%w[date ip input].include?(facet_type)
-      params_hash = options.reject { |key, value| key == :facet_type }
-      params = params_hash.map { |key, value| "#{key}=#{CGI.escape(value)}" }.join("&")
       response = http_request(
         :user => @user,
         :password => @password,
         :ssl => true,
-        :uri => "https://#{@subdomain}.loggly.com/api/facets/#{facet_type}/?#{params}"
+        :uri => "https://#{@subdomain}.loggly.com/api/facets/#{facet_type}/",
+        :parameters => options.reject { |key, value| key == :facet_type }
       )
       JSON.parse(response.body)
     end

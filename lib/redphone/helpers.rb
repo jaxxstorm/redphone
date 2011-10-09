@@ -11,21 +11,27 @@ def http_request(options={})
   user = options[:user]
   password = options[:password]
   headers = options[:headers] || Hash.new
+  parameters = options[:parameters] || Hash.new
   body = options[:body]
   http = Net::HTTP.new(uri.host, uri.port)
   if options[:ssl] == true
     http.use_ssl = true
     http.verify_mode = OpenSSL::SSL::VERIFY_NONE
   end
+  request_uri = uri.request_uri
+  unless parameters.empty?
+    request_uri += "?"
+    request_uri += parameters.map { |key, value| "#{key}=#{CGI.escape(value)}" }.join("&")
+  end
   request = case method
   when "get"
-    Net::HTTP::Get.new(uri.request_uri)
+    Net::HTTP::Get.new(request_uri)
   when "post"
-    Net::HTTP::Post.new(uri.request_uri)
+    Net::HTTP::Post.new(request_uri)
   when "put"
-    Net::HTTP::Put.new(uri.request_uri)
+    Net::HTTP::Put.new(request_uri)
   when "delete"
-    Net::HTTP::Delete.new(uri.request_uri)
+    Net::HTTP::Delete.new(request_uri)
   else
     raise "Unknown HTTP method: #{method}"
   end

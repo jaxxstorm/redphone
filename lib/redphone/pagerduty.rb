@@ -47,12 +47,12 @@ module Redphone
     end
 
     def incidents(options={})
-      params = options.map { |key, value| "#{key}=#{CGI.escape(value)}" }.join("&")
       response = http_request(
         :user => @user,
         :password => @password,
         :ssl => true,
-        :uri => "https://#{@subdomain}.pagerduty.com/api/v1/incidents?#{params}"
+        :uri => "https://#{@subdomain}.pagerduty.com/api/v1/incidents",
+        :parameters => options
       )
       JSON.parse(response.body)
     end
