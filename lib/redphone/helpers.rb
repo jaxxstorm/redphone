@@ -1,5 +1,6 @@
 require "rubygems" if RUBY_VERSION < "1.9.0"
 require "net/http"
+require "net/https"
 require "uri"
 require "json"
 require "cgi"
