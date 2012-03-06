@@ -4,7 +4,7 @@ module Redphone
   class Pagerduty
     def initialize(options={})
       [:subdomain, :user, :password].each do |option|
-        raise "You must supply a #{option}" if options[option].nil?
+        raise "You must supply a #{option}" if !options.has_key?(option)
       end
       @subdomain =  options[:subdomain]
       @user = options[:user]
@@ -24,7 +24,7 @@ module Redphone
 
     def self.trigger_incident(options={})
       [:service_key, :description].each do |option|
-        raise "You must supply a #{option.gsub('_', ' ')}" if options[option].nil?
+        raise "You must supply a #{option}" if !options.has_key?(option)
       end
       request_body = options.merge!({:event_type => "trigger"})
       integration_api(request_body)
@@ -37,7 +37,7 @@ module Redphone
 
     def self.resolve_incident(options={})
       [:service_key, :incident_key].each do |option|
-        raise "You must supply a #{option.gsub('_', ' ')}" if options[option].nil?
+        raise "You must supply a #{option}" if !options.has_key?(option)
       end
       request_body = options.merge!({:event_type => "resolve"})
       integration_api(request_body)
@@ -82,5 +82,19 @@ module Redphone
       )
       JSON.parse(response.body)			
     end
+    
+    def schedules(options={})
+      [:schedule_id, :since, :until].each do |option|
+        raise "You must supply a #{option}" if !options.has_key?(option) 
+      end
+      response = http_request(
+        :user => @user,
+        :password => @password,
+        :ssl => true,
+        :uri => "https://#{@subdomain}.pagerduty.com/api/v1/schedules/#{options[:schedule_id]}/entries",
+        :parameters => options
+      )
+      JSON.parse(response.body)			
+    end	
   end
 end
