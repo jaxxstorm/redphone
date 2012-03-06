@@ -4,3 +4,4 @@ Gemfile.lock
 pkg/*
 *.txt
 *.jpg
+*.yml
