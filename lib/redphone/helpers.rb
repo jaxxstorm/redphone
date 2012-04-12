@@ -45,3 +45,9 @@ def http_request(options={})
   request.body = body
   http.request(request)
 end
+
+def has_options(options={}, required=[])
+  required.each do |option|
+    raise "You must supply a #{option}" unless options.has_key?(option) && !options[option].nil?
+  end
+end
