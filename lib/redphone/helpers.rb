@@ -15,6 +15,8 @@ def http_request(options={})
   parameters = options[:parameters] || Hash.new
   body = options[:body]
   http = Net::HTTP.new(uri.host, uri.port)
+  http.open_timeout = options[:timeout] if options[:timeout]
+  http.read_timeout = options[:timeout] if options[:timeout]
   if options[:ssl] == true
     http.use_ssl = true
     http.verify_mode = OpenSSL::SSL::VERIFY_NONE

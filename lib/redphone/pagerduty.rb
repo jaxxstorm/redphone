@@ -59,6 +59,7 @@ module Redphone
         :password   => @password,
         :ssl        => true,
         :uri        => "https://#{@subdomain}.pagerduty.com/api/v1/incidents",
+        :timeout    => options[:timeout],
         :parameters => options
       )
       JSON.parse(response.body)
@@ -70,6 +71,7 @@ module Redphone
         :password   => @password,
         :ssl        => true,
         :uri        => "https://#{@subdomain}.pagerduty.com/api/v1/incidents/count",
+        :timeout    => options[:timeout],
         :parameters => options
       )
       JSON.parse(response.body)
@@ -82,6 +84,7 @@ module Redphone
         :password   => @password,
         :ssl        => true,
         :uri        => "https://#{@subdomain}.pagerduty.com/api/v1/schedules/#{options[:schedule_id]}/entries",
+        :timeout    => options[:timeout],
         :parameters => options
       )
       JSON.parse(response.body)
