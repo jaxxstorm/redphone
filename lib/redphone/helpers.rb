@@ -33,6 +33,8 @@ def http_request(options={})
     Net::HTTP::Put.new(request_uri)
   when "delete"
     Net::HTTP::Delete.new(request_uri)
+  when "patch"
+    Net::HTTP::Patch.new(request_uri)
   else
     raise "Unknown HTTP method: #{method}"
   end
