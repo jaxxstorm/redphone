@@ -85,7 +85,7 @@ module Redphone
         @request_options.merge({
           :method => "delete",
           :uri => "https://api.statuspage.io/v0/organizations/#{@page_id}/incidents/#{options[:incident_id]}.json"
-        )}
+        })
       )
       JSON.parse(response.body)
     end
@@ -94,11 +94,11 @@ module Redphone
       check_incident_attributes(options, [:incident_id, :incident_update_id])
       parameter_options = Hash.new
       parameter_options["incident_update[body]"] = options[:body] unless options[:body].nil?
-      parameter_options["incident_update[display_at]"] => options[:display_at] unless options[:display_at].nil?
+      parameter_options["incident_update[display_at]"] = options[:display_at] unless options[:display_at].nil?
       response = http_request(
         @request_options.merge({
           :method => "patch",
-          :uri => "https://api.statuspage.io/v0/organizations/#{@page_id}/incidents/#{options[:incident_id]}/incident_updates/#{options[:incident_update_id]}.json"
+          :uri => "https://api.statuspage.io/v0/organizations/#{@page_id}/incidents/#{options[:incident_id]}/incident_updates/#{options[:incident_update_id]}.json",
           :parameters => parameter_options
         })
       )
