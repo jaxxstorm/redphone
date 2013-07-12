@@ -101,4 +101,15 @@ class TestRedphoneStatuspage < MiniTest::Unit::TestCase
     )
     assert_equal 'updated incident new body', response['body']
   end
+
+  def test_update_component
+    test_component_id = @statuspage.get_all_components.first["id"]
+
+    response = @statuspage.update_component(
+      :method => "patch",
+      :component_id => test_component_id,
+      :status => "major_outage"
+    )
+    assert_equal 'major_outage', response['status']
+  end
 end

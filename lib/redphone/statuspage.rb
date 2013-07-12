@@ -19,14 +19,24 @@ module Redphone
       return incident_options
     end
 
-    def check_incident_attributes(options={}, checked_options=[])
+    def check_attributes(options={}, checked_options=[])
       checked_options.each do |option|
         raise "You must supply an incident #{option}." if options[option].nil?
       end
     end
 
+    def get_all_incidents()
+      response = http_request(
+        @request_options.merge({
+          :method => "get",
+          :uri => "https://api.statuspage.io/v0/organizations/#{@page_id}/incidents.json"
+        })
+      )
+      JSON.parse(response.body)
+    end
+
     def create_realtime_incident(options={})
-      check_incident_attributes(options, [:name, :wants_twitter_update])
+      check_attributes(options, [:name, :wants_twitter_update])
       options = convert_options(options)
       response = http_request(
         @request_options.merge({
@@ -39,7 +49,7 @@ module Redphone
     end
 
     def create_scheduled_incident(options={})
-      check_incident_attributes(options, [:name, :status, :wants_twitter_update, :scheduled_for, :scheduled_until])
+      check_attributes(options, [:name, :status, :wants_twitter_update, :scheduled_for, :scheduled_until])
       options = convert_options(options)
       response = http_request(
         @request_options.merge({
@@ -52,7 +62,7 @@ module Redphone
     end
 
     def create_historical_incident(options={})
-      check_incident_attributes(options, [:name, :message, :backfilled, :backfill_date])
+      check_attributes(options, [:name, :message, :backfilled, :backfill_date])
       options = convert_options(options)
       response = http_request(
         @request_options.merge({
@@ -65,7 +75,7 @@ module Redphone
     end
 
     def update_incident(options={})
-      check_incident_attributes(options, [:name, :wants_twitter_update, :incident_id])
+      check_attributes(options, [:name, :wants_twitter_update, :incident_id])
       incident_id = options[:incident_id]
       options.delete(:incident_id)
       options = convert_options(options)
@@ -80,7 +90,7 @@ module Redphone
     end
 
     def delete_incident(options={})
-      check_incident_attributes(options, [:incident_id])
+      check_attributes(options, [:incident_id])
       response = http_request(
         @request_options.merge({
           :method => "delete",
@@ -91,7 +101,7 @@ module Redphone
     end
   
     def tune_incident_update(options={})
-      check_incident_attributes(options, [:incident_id, :incident_update_id])
+      check_attributes(options, [:incident_id, :incident_update_id])
       parameter_options = Hash.new
       parameter_options["incident_update[body]"] = options[:body] unless options[:body].nil?
       parameter_options["incident_update[display_at]"] = options[:display_at] unless options[:display_at].nil?
@@ -99,6 +109,29 @@ module Redphone
         @request_options.merge({
           :method => "patch",
           :uri => "https://api.statuspage.io/v0/organizations/#{@page_id}/incidents/#{options[:incident_id]}/incident_updates/#{options[:incident_update_id]}.json",
+          :parameters => parameter_options
+        })
+      )
+      JSON.parse(response.body)
+    end
+
+    def get_all_components()
+      response = http_request(
+        @request_options.merge({
+          :method => "get",
+          :uri => "https://api.statuspage.io/v0/organizations/#{@page_id}/components.json"
+        })
+      )
+      JSON.parse(response.body)
+    end
+
+    def update_component(options={})
+      check_attributes(options, [:component_id, :status])
+      parameter_options = {"component[status]" => options[:status]}
+      response = http_request(
+        @request_options.merge({
+          :method => "patch",
+          :uri => "https://api.statuspage.io/v0/organizations/#{@page_id}/components/#{options[:component_id]}.json",
           :parameters => parameter_options
         })
       )
