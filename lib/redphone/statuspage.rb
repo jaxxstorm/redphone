@@ -9,6 +9,7 @@ module Redphone
         :ssl => true,
         :headers => {"Authorization" => "OAuth #{options[:api_key]}"}
       }
+      @api_url = "https://api.statuspage.io/v1/pages/#{@page_id}/"
     end
 
     def convert_options(options={})
@@ -29,7 +30,7 @@ module Redphone
       response = http_request(
         @request_options.merge({
           :method => "get",
-          :uri => "https://api.statuspage.io/v0/organizations/#{@page_id}/incidents.json"
+          :uri => @api_url + "incidents.json"
         })
       )
       JSON.parse(response.body)
@@ -41,7 +42,7 @@ module Redphone
       response = http_request(
         @request_options.merge({
           :method => "post",
-          :uri => "https://api.statuspage.io/v0/organizations/#{@page_id}/incidents.json",
+          :uri => @api_url + "incidents.json",
           :parameters => options
         })
       )
@@ -54,7 +55,7 @@ module Redphone
       response = http_request(
         @request_options.merge({
           :method => "post",
-          :uri => "https://api.statuspage.io/v0/organizations/#{@page_id}/incidents.json",
+          :uri => @api_url + "incidents.json",
           :parameters => options
         })
       )
@@ -67,7 +68,7 @@ module Redphone
       response = http_request(
         @request_options.merge({
           :method => "post",
-          :uri => "https://api.statuspage.io/v0/organizations/#{@page_id}/incidents.json",
+          :uri => @api_url + "incidents.json",
           :parameters => options
         })
       )
@@ -82,7 +83,7 @@ module Redphone
       response = http_request(
         @request_options.merge({
           :method => "patch",
-          :uri => "https://api.statuspage.io/v0/organizations/#{@page_id}/incidents/#{incident_id}.json",
+          :uri => @api_url + "incidents/#{incident_id}.json",
           :parameters => options
         })
       )
@@ -94,7 +95,7 @@ module Redphone
       response = http_request(
         @request_options.merge({
           :method => "delete",
-          :uri => "https://api.statuspage.io/v0/organizations/#{@page_id}/incidents/#{options[:incident_id]}.json"
+          :uri => @api_url + "incidents/#{options[:incident_id]}.json"
         })
       )
       JSON.parse(response.body)
@@ -108,7 +109,7 @@ module Redphone
       response = http_request(
         @request_options.merge({
           :method => "patch",
-          :uri => "https://api.statuspage.io/v0/organizations/#{@page_id}/incidents/#{options[:incident_id]}/incident_updates/#{options[:incident_update_id]}.json",
+          :uri => @api_url + "incidents/#{options[:incident_id]}/incident_updates/#{options[:incident_update_id]}.json",
           :parameters => parameter_options
         })
       )
@@ -119,7 +120,7 @@ module Redphone
       response = http_request(
         @request_options.merge({
           :method => "get",
-          :uri => "https://api.statuspage.io/v0/organizations/#{@page_id}/components.json"
+          :uri => @api_url + "components.json"
         })
       )
       JSON.parse(response.body)
@@ -131,7 +132,7 @@ module Redphone
       response = http_request(
         @request_options.merge({
           :method => "patch",
-          :uri => "https://api.statuspage.io/v0/organizations/#{@page_id}/components/#{options[:component_id]}.json",
+          :uri => @api_url + "components/#{options[:component_id]}.json",
           :parameters => parameter_options
         })
       )

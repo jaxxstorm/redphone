@@ -106,7 +106,6 @@ class TestRedphoneStatuspage < MiniTest::Unit::TestCase
     test_component_id = @statuspage.get_all_components.first["id"]
 
     response = @statuspage.update_component(
-      :method => "patch",
       :component_id => test_component_id,
       :status => "major_outage"
     )
