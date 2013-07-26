@@ -2,6 +2,7 @@
   - Pagerduty support (integration, incidents)
   - Pingdom support (checks, results, actions)
   - Loggly support (event, search, facets)
+  - StatusPage support (incidents, components)
   [[https://github.com/portertech/redphone/raw/master/redphone.jpg]]
   - All API request are done over SSL
   - Response bodies are returned as Ruby hashes
@@ -75,5 +76,36 @@
   You can add the following options for a date range
   : :from => "2011-08-01T12:00:00Z",
   : :until => "2011-10-01T12:00:00Z"
+** StatusPage.io
+  : require "redphone/statuspage"
+  : statuspage = Redphone::Statuspage.new(
+  :   :page_id => PAGE_ID,
+  :   :api_key => API_KEY
+  : )
+  Create a realtime incident
+  : response = statuspage.create_realtime_incident(
+  :   :name => "testing",
+  :   :status => "identified",
+  :   :wants_twitter_update => "t",
+  :   :message => "testing message"
+  : )
+  Update an incident
+  : incident_id = response["id"]
+  : statuspage.update_incident(
+  :   :name => "testing",
+  :   :status => "resolved",
+  :   :wants_twitter_update => "t"
+  :   :incident_id => incident_id
+  : )
+  Delete an incident
+  : statuspage.delete_incident(
+  :   :incident_id => incident_id
+  : )
+  Update a component status
+  : statuspage.update_component(
+  :   :component_id => COMPONENT_ID,
+  :   :status => "major_outage"
+  : )
 * Contributors
   - [[http://portertech.ca][Sean Porter]]
+  - [[http://github.com/perryh][Perry Huang]]
