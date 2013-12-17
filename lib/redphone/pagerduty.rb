@@ -22,6 +22,8 @@ module Redphone
 
     def self.trigger_incident(options={})
       has_options(options, [:service_key, :description])
+      # Truncate description to limit of API
+      options[:description] = options[:description][0, 1024]
       request_body = options.merge!({:event_type => "trigger"})
       integration_api(request_body)
     end
