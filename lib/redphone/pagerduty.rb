@@ -4,24 +4,30 @@ module Redphone
   class Pagerduty
     def initialize(options={})
       has_options(options, [:subdomain, :user, :password])
-      @subdomain   = options[:subdomain]
-      @user        = options[:user]
-      @password    = options[:password]
-      @service_key = options[:service_key]
+      @subdomain     = options[:subdomain]
+      @user          = options[:user]
+      @password      = options[:password]
+      @service_key   = options[:service_key]
+      @proxy_address = options[:proxy_address]
+      @proxy_port    = options[:proxy_port]
     end
 
     def self.integration_api(request_body)
       response = http_request(
-        :method => "post",
-        :ssl    => true,
-        :uri    => "https://events.pagerduty.com/generic/2010-04-15/create_event.json",
-        :body   => request_body.to_json
+        :method        => "post",
+        :ssl           => true,
+        :uri           => "https://events.pagerduty.com/generic/2010-04-15/create_event.json",
+        :body          => request_body.to_json,
+        :proxy_address => @proxy_address,
+        :proxy_port    => @proxy_port
       )
       JSON.parse(response.body)
     end
 
     def self.trigger_incident(options={})
       has_options(options, [:service_key, :description])
+      @proxy_address = options[:proxy_address]
+      @proxy_port    = options[:proxy_port]
       request_body = options.merge!({:event_type => "trigger"})
       integration_api(request_body)
     end
@@ -33,6 +39,8 @@ module Redphone
 
     def self.resolve_incident(options={})
       has_options(options, [:service_key, :incident_key])
+      @proxy_address = options[:proxy_address]
+      @proxy_port    = options[:proxy_port]
       request_body = options.merge!({:event_type => "resolve"})
       integration_api(request_body)
     end
@@ -44,6 +52,8 @@ module Redphone
 
     def self.acknowledge_incident(options={})
       has_options(options, [:service_key, :incident_key])
+      @proxy_address = options[:proxy_address]
+      @proxy_port    = options[:proxy_port]
       request_body = options.merge!({:event_type => "acknowledge"})
       integration_api(request_body)
     end
@@ -59,7 +69,9 @@ module Redphone
         :password   => @password,
         :ssl        => true,
         :uri        => "https://#{@subdomain}.pagerduty.com/api/v1/incidents",
-        :parameters => options
+        :parameters => options,
+        :proxy_address = options[:proxy_address],
+        :proxy_port    = options[:proxy_port]
       )
       JSON.parse(response.body)
     end
@@ -70,7 +82,9 @@ module Redphone
         :password   => @password,
         :ssl        => true,
         :uri        => "https://#{@subdomain}.pagerduty.com/api/v1/incidents/count",
-        :parameters => options
+        :parameters => options,
+        :proxy_address = options[:proxy_address],
+        :proxy_port    = options[:proxy_port]
       )
       JSON.parse(response.body)
     end
@@ -82,7 +96,9 @@ module Redphone
         :password   => @password,
         :ssl        => true,
         :uri        => "https://#{@subdomain}.pagerduty.com/api/v1/schedules/#{options[:schedule_id]}/entries",
-        :parameters => options
+        :parameters => options,
+        :proxy_address = options[:proxy_address],
+        :proxy_port    = options[:proxy_port]
       )
       JSON.parse(response.body)
     end

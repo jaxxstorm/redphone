@@ -19,6 +19,10 @@ def http_request(options={})
     http.use_ssl = true
     http.verify_mode = OpenSSL::SSL::VERIFY_NONE
   end
+  unless options[:proxy_address].nil?
+    http.proxy_address = options[:proxy_address]
+    http.proxy_port = options[:proxy_port] || 8080
+  end
   request_uri = uri.request_uri
   unless parameters.empty?
     request_uri += "?"
