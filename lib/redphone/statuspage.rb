@@ -4,6 +4,8 @@ module Redphone
   class Statuspage
     def initialize(options={})
       has_options(options, [:api_key, :page_id])
+      @proxy_address = options[:proxy_address]
+      @proxy_port = options[:proxy_port]
       @page_id = options[:page_id]
       @request_options = {
         :ssl => true,
