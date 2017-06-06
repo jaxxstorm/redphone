@@ -14,7 +14,13 @@ def http_request(options={})
   headers = options[:headers] || Hash.new
   parameters = options[:parameters] || Hash.new
   body = options[:body]
-  http = Net::HTTP.new(uri.host, uri.port)
+  proxy_address = options[:proxy_address]
+  proxy_port = options[:proxy_port]
+  http = if @proxy_address.nil?
+           Net::HTTP.new(uri.host, uri.port)
+         else
+           Net::HTTP::Proxy(@proxy_address, @proxy_port).new(uri.host, uri.port)
+         end
   if options[:ssl] == true
     http.use_ssl = true
     http.verify_mode = OpenSSL::SSL::VERIFY_NONE
